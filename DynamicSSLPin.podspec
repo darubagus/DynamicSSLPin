@@ -30,7 +30,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '10.0'
 
-  s.source_files = 'DynamicSSLPin/Classes/**/*'
+  s.source_files = 'Sources/DynamicSSLPin/Classes/**/*'
   
   # s.resource_bundles = {
   #   'DynamicSSLPin' => ['DynamicSSLPin/Assets/*.png']
