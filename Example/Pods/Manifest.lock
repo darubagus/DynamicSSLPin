@@ -1,0 +1,16 @@
+PODS:
+  - DynamicSSLPin (0.1.0)
+
+DEPENDENCIES:
+  - DynamicSSLPin (from `../`)
+
+EXTERNAL SOURCES:
+  DynamicSSLPin:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  DynamicSSLPin: efc283be559689309f25b73cc0d017499768db25
+
+PODFILE CHECKSUM: 4ca47f6fcc15123bac75743ddcca6df6dc0053f7
+
+COCOAPODS: 1.12.1

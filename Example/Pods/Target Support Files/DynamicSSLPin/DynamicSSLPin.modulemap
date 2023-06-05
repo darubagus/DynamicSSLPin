@@ -1,0 +1,6 @@
+framework module DynamicSSLPin {
+  umbrella header "DynamicSSLPin-umbrella.h"
+
+  export *
+  module * { export * }
+}
