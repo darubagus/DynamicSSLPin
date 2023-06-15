@@ -50,21 +50,41 @@ public struct CertStoreConfig {
 
 extension CertStoreConfig {
     public func validate(crypto: CryptoProvider) {
+        
         if serviceURL.absoluteString.hasPrefix("http:") {
             print(" '.serviceURL' should point to 'https' endpoint.")
         }
         
-//        if SSLValidationStrat == .noValidation {
-//            print(" .SSLValidationStrat.noValidation should not be used in production env")
-//        }
-        
-        if let fallback = fallbackCertificate {
+        if validationStrategy == .noValidation {
+            print(" .SSLValidationStrat.noValidation should not be used in production env")
+        }
+
+        if let fallbackCertData = fallbackCertificate {
             let decoder = JSONDecoder()
             decoder.dataDecodingStrategy = .base64
             decoder.dateDecodingStrategy = .secondsSince1970
             
-//            if let fallback = try? decoder.decode(, from: <#T##Data#>)
+            if let fallback = try? decoder.decode(Fingerprint.self, from: fallbackCertData) {
+                for entry in fallback.fingerprints {
+                    if let expectedCommonNameValidation = expectedCommonNames {
+                        if !expectedCommonNameValidation.contains(entry.name) {
+                            print("CertStore: certificate '\(entry.name)' in '.fallbackCertData' is issued for common name, which is not included in 'expectedCommonNames'.")
+                        }
+                    }
+                    
+                    // check if cert is already expired
+                    if entry.expirationDate.timeIntervalSinceNow < 0 {
+                        print("CertStore: certificate '\(entry.name)' in '.fallbackCertData' is already expired.")
+                    }
+                }
+            } else {
+                print("CertStore: '.fallbackCertData' contains invalid JSON.")
+            }
         }
+        
+        // validate EC Public Key
+        
+        // Handle negative time interval
     }
 }
 
