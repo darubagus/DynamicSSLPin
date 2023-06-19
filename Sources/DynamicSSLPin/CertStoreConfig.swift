@@ -48,6 +48,7 @@ public struct CertStoreConfig {
     }
 }
 
+@available(iOS 13.0, *)
 extension CertStoreConfig {
     public func validate(crypto: CryptoProvider) {
         

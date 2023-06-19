@@ -18,9 +18,8 @@ extension SSLValidationStrat {
         case .noValidation:
             if let serverTrust = challenge.protectionSpace.serverTrust {
                 completionHandler(.useCredential, URLCredential(trust: serverTrust))
-            } else {
-                completionHandler(.performDefaultHandling, nil)
             }
+            break
         case .default:
             completionHandler(.performDefaultHandling, nil)
         }
