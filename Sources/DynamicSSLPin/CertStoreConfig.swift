@@ -28,21 +28,26 @@ public struct CertStoreConfig {
 /**
     Interval Config
  */
-    public let UpdateInterval: TimeInterval
+    public let updateInterval: TimeInterval
     
     public let expirationThreshold: TimeInterval
     
     public let validationStrategy: SSLValidationStrat
     
 //    CONSTRUCTOR
-    public init(serviceURL: URL, pubKey: String, useChallenge: Bool, identifier: String?, expectedCommonNames: [String]?, fallbackCertificate: Data?, UpdateInterval: TimeInterval, expirationThreshold: TimeInterval, validationStrategy: SSLValidationStrat) {
+    /**
+            default value:
+            update Interval: once every week
+            Expiration threshold: once every two week
+     */
+    public init(serviceURL: URL, pubKey: String, useChallenge: Bool, identifier: String?, expectedCommonNames: [String]?, fallbackCertificate: Data?, updateInterval: TimeInterval = 7*24*60*60, expirationThreshold: TimeInterval = 14*24*60*60, validationStrategy: SSLValidationStrat) {
         self.serviceURL = serviceURL
         self.pubKey = pubKey
         self.useChallenge = useChallenge
         self.identifier = identifier
         self.expectedCommonNames = expectedCommonNames
         self.fallbackCertificate = fallbackCertificate
-        self.UpdateInterval = UpdateInterval
+        self.updateInterval = updateInterval
         self.expirationThreshold = expirationThreshold
         self.validationStrategy = validationStrategy
     }
@@ -84,8 +89,11 @@ extension CertStoreConfig {
         }
         
         // validate EC Public Key
-        
+        _ = crypto.importECPubblicKey(pubKeyBase64: pubKey)
         // Handle negative time interval
+        if expirationThreshold < 0 || updateInterval < 0 {
+            debug.fatalError("Invalid TimeInterval: Expiration Treshold or updateInterval")
+        }
     }
 }
 

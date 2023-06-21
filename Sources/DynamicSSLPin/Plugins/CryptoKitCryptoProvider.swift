@@ -38,10 +38,21 @@ public class CryptoKitCryptoProvider: CryptoProvider {
             }
             return errSecAllocate
         }
-//        guard res == errSecSuccess else {
-//            print("Can't generate random")
-//        }
+        guard res == errSecSuccess else {
+            debug.fatalError("Can't generate random")
+        }
         return data
+    }
+    
+}
+
+@available(iOS 13.0, *)
+extension CryptoProvider {
+    func importECPubblicKey(pubKeyBase64: String) -> Any? {
+        guard let publicKeyData = Data(base64Encoded: pubKeyBase64), let pubKey = importECPublicKey(pubKey: publicKeyData) else {
+            debug.fatalError("Invalid public key")
+        }
+        return pubKey
     }
     
 }
