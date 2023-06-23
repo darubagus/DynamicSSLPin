@@ -1,0 +1,6 @@
+[submodule "Carthage/Checkouts/KeychainAccess"]
+	path = Support/Carthage/Checkouts/KeychainAccess
+	url = https://github.com/kishikawakatsumi/KeychainAccess.git
+[submodule "Carthage/Checkouts/powerauth-mobile-sdk"]
+	path = Support/Carthage/Checkouts/powerauth-mobile-sdk
+	url = https://github.com/wultra/powerauth-mobile-sdk.git

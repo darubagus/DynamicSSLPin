@@ -1,0 +1,2 @@
+github "kishikawakatsumi/KeychainAccess" "v4.2.2"
+github "wultra/powerauth-mobile-sdk" "release/1.6.x"
