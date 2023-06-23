@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import KeychainAccess
 import PowerAuth2
 
 public class SecureDataProvider: SecureDataStore {

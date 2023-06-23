@@ -24,7 +24,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "DynamicSSLPin",
-            dependencies: ["KeychainAccess", "PowerAuth2", "PowerAuthCore"]),
+            dependencies: ["PowerAuth2", "PowerAuthCore"]),
         .binaryTarget(
             name: "PowerAuth2",
             path: "./Frameworks/PowerAuth2.xcframework"),
