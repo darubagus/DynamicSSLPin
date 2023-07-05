@@ -7,8 +7,13 @@
 
 import Foundation
 
-public class debug {
+public class Debug {
     public static func fatalError(_ message: @autoclosure ()->String) -> Never {
         Swift.fatalError(message(), file: "", line: 1)
     }
+    
+    public static func messsage(_ message: @autoclosure () -> String) {
+        Swift.print(message())
+    }
 }
+

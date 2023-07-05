@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct cacheData: Codable {
+internal struct CacheData: Codable {
     
     var certificates: [CertInfo]
     var nextUpdate: Date
@@ -18,7 +18,7 @@ internal struct cacheData: Codable {
     }
 }
 
-extension cacheData {
+extension CacheData {
     func countValidCertificates(forDate date: Date) -> Int {
         var res = 0
         for certificate in certificates {

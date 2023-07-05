@@ -26,7 +26,7 @@ public struct CertStoreConfig {
     public let fallbackCertificate: Data?
     
 /**
-    Interval Config
+    Interval Configuration
  */
     public let updateInterval: TimeInterval
     
@@ -92,7 +92,7 @@ extension CertStoreConfig {
         _ = crypto.importECPubblicKey(pubKeyBase64: pubKey)
         // Handle negative time interval
         if expirationThreshold < 0 || updateInterval < 0 {
-            debug.fatalError("Invalid TimeInterval: Expiration Treshold or updateInterval")
+            Debug.fatalError("Invalid TimeInterval: Expiration Treshold or updateInterval")
         }
     }
 }
