@@ -16,7 +16,9 @@ public protocol CryptoProvider {
     
     func importECPublicKey(pubKey: Data) -> Any?
     
-    func hash(data: Data) -> SHA384Digest
+    func hash(data: Data) -> Data
     
     func getRandomData(length: Int) -> Data
+    
+    func convertDigestToData(digest: SHA384Digest) -> Data
 }

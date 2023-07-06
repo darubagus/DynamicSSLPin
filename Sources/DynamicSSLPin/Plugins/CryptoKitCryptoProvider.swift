@@ -26,8 +26,9 @@ public class CryptoKitCryptoProvider: CryptoProvider {
         return try! P521.Signing.PublicKey(rawRepresentation: pubKey)
     }
     
-    public func hash(data: Data) -> SHA384Digest {
-        return SHA384.hash(data: data)
+    public func hash(data: Data) -> Data {
+        let digest = SHA384.hash(data: data)
+        return convertDigestToData(digest: digest)
     }
     
     public func getRandomData(length: Int) -> Data {
@@ -55,4 +56,7 @@ extension CryptoProvider {
         return pubKey
     }
     
+    public func convertDigestToData(digest: SHA384Digest) -> Data {
+        return digest.withUnsafeBytes { Data($0) }
+    }
 }

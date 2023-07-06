@@ -40,7 +40,7 @@ public struct CertStoreConfig {
             update Interval: once every week
             Expiration threshold: once every two week
      */
-    public init(serviceURL: URL, pubKey: String, useChallenge: Bool, identifier: String?, expectedCommonNames: [String]?, fallbackCertificate: Data?, updateInterval: TimeInterval = 7*24*60*60, expirationThreshold: TimeInterval = 14*24*60*60, validationStrategy: SSLValidationStrat) {
+    public init(serviceURL: URL, pubKey: String, useChallenge: Bool = false, identifier: String? = nil, expectedCommonNames: [String]? = nil, fallbackCertificate: Data? = nil, updateInterval: TimeInterval = 7*24*60*60, expirationThreshold: TimeInterval = 14*24*60*60, validationStrategy: SSLValidationStrat = .default) {
         self.serviceURL = serviceURL
         self.pubKey = pubKey
         self.useChallenge = useChallenge
