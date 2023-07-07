@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol ECPublicKey: NSObject {
+public protocol ECPublicKey: AnyObject {
     
 }

@@ -89,7 +89,7 @@ extension CertStoreConfig {
         }
         
         // validate EC Public Key
-        _ = crypto.importECPubblicKey(pubKeyBase64: pubKey)
+        _ = crypto.importECPublicKey(pubKeyBase64: pubKey)
         // Handle negative time interval
         if expirationThreshold < 0 || updateInterval < 0 {
             Debug.fatalError("Invalid TimeInterval: Expiration Treshold or updateInterval")

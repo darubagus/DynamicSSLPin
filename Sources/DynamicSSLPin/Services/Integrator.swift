@@ -26,7 +26,7 @@ public class SSLPinningValidationStrat: NSObject {
 
 @available(iOS 13.0, *)
 public extension CertStore {
-    func sslValidationStraategy() -> NSObject {
+    func sslValidationStrategy() -> NSObject {
         return SSLPinningValidationStrat(certStore: self)
     }
     

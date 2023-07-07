@@ -92,4 +92,18 @@ internal extension CertStore {
         
         return cachedData
     }
+    
+    func updateCachedData(closure: (CacheData?) -> CacheData?) -> Void {
+        semaphore.wait()
+        defer {
+            semaphore.signal()
+        }
+        
+        loadCache()
+        
+        if let newData = closure(cachedData) {
+            cachedData = newData
+            saveData(data: newData)
+        }
+    }
 }

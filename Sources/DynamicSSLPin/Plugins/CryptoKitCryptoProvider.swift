@@ -49,7 +49,7 @@ public class CryptoKitCryptoProvider: CryptoProvider {
 
 @available(iOS 13.0, *)
 extension CryptoProvider {
-    func importECPubblicKey(pubKeyBase64: String) -> Any? {
+    func importECPublicKey(pubKeyBase64: String) -> Any? {
         guard let publicKeyData = Data(base64Encoded: pubKeyBase64), let pubKey = importECPublicKey(pubKey: publicKeyData) else {
             Debug.fatalError("Invalid public key")
         }
