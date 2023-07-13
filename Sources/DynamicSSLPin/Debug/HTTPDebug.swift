@@ -20,6 +20,7 @@ public extension Debug {
         if let body = request.httpBody {
             message += "\n  + Body: \(Data.bodyToString(body: body))"
         }
+        Debug.messsage(message)
     }
     
     static func logHTTPResponse(response: URLResponse?, data: Data?, error: Error?) {

@@ -19,11 +19,14 @@ public class CryptoKitCryptoProvider: CryptoProvider {
 //        let signingPubKey = try! P521.Signing.PublicKey(rawRepresentation: publicKeyData)
 //
 //        return signingPubKey.isValidSignature(signedData.signature, for: ECPublicKey)
+        guard let ecPublicKey = pubKey as? ECPublicKey else {
+            Debug.fatalError("validateSignature: Invalid public key")
+        }
         return true
     }
     
     public func importECPublicKey(pubKey: Data) -> Any? {
-        return try! P521.Signing.PublicKey(rawRepresentation: pubKey)
+        return try! P256.Signing.PublicKey(rawRepresentation: pubKey)
     }
     
     public func hash(data: Data) -> Data {
@@ -50,7 +53,7 @@ public class CryptoKitCryptoProvider: CryptoProvider {
 @available(iOS 13.0, *)
 extension CryptoProvider {
     func importECPublicKey(pubKeyBase64: String) -> Any? {
-        guard let publicKeyData = Data(base64Encoded: pubKeyBase64), let pubKey = importECPublicKey(pubKey: publicKeyData) else {
+        guard let publicKeyData = pubKeyBase64.data(using: .utf8), let pubKey = importECPublicKey(pubKey: publicKeyData) else {
             Debug.fatalError("Invalid public key")
         }
         return pubKey

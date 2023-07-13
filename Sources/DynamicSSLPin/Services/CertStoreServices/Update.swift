@@ -10,7 +10,7 @@ import Foundation
 @available(iOS 13.0, *)
 extension CryptoProvider {
     func importECPublicKey(pubKeyInBase64: String) -> ECPublicKey {
-        guard let publicKeyData = Data(base64Encoded: pubKeyInBase64), let publicKey = importECPublicKey(pubKey: publicKeyData) as? ECPublicKey else {
+        guard let publicKeyData = pubKeyInBase64.data(using: .utf8), let publicKey = importECPublicKey(pubKey: publicKeyData) as? ECPublicKey else {
             Debug.fatalError("CertStoreConfig: Invalid public key")
         }
         return publicKey
