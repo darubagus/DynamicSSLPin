@@ -28,6 +28,13 @@ public extension Debug {
         let urlString = httpResponse?.url?.absoluteString ?? nil
         let statusCode = httpResponse?.statusCode ?? 0
         let headers = httpResponse?.stringifyHeaders ?? [:]
+        var message = "HTTP \(statusCode) response: ← \(urlString)"
+        message += "\n  + Headers: \(headers)"
+        message += "\n  + Data: \(Data.bodyToString(body: data))"
+        if let error = error {
+            message += "\n  + Error: \(error)"
+        }
         
+        Debug.messsage(message)
     }
 }
