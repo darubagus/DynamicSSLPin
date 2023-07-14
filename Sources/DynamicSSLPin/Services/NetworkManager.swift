@@ -46,7 +46,7 @@ public class NetworkManager: NSObject, URLSessionDelegate, RemoteDataProvider {
             
             
             this.session.dataTask(with: urlRequest) { data, response, error in
-                Debug.logHTTPResponse(response: response, data: data, error: error)
+            Debug.logHTTPResponse(response: response, data: data, error: error)
                 
                 if let error {
                     completion(RemoteDateResponse(responseHeader: [:], results: .failure(NetworkError.internalError(message: "Invalid Response Object"))))
@@ -58,15 +58,15 @@ public class NetworkManager: NSObject, URLSessionDelegate, RemoteDataProvider {
                 let statusCode = response?.statusCode
                 
                 if statusCode! > 299 {
-                    Debug.messsage("NetworkManager: Request failed with response code: \(statusCode)")
+                    Debug.message("NetworkManager: Request failed with response code: \(statusCode)")
                     completion(RemoteDateResponse(responseHeader: headers!, results: .failure(NetworkError.invalidHTTPResponse(statusCode: statusCode!))))
                 } else if let error = error {
-                    Debug.messsage("NetworkManager: Request failed with error \(error)")
+                    Debug.message("NetworkManager: Request failed with error \(error)")
                     completion(RemoteDateResponse(responseHeader: headers!, results: .failure(error)))
                 } else if let data = data {
                     completion(RemoteDateResponse(responseHeader: headers!, results: .success(data)))
                 } else {
-                    Debug.messsage("NetworkManager: Request finished with empty response")
+                    Debug.message("NetworkManager: Request finished with empty response")
                     completion(RemoteDateResponse(responseHeader: headers!, results: .failure(NetworkError.nilResponseData)))
                 }
             }.resume()

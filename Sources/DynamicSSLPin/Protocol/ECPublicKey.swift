@@ -6,7 +6,9 @@
 //
 
 import Foundation
+import CryptoKit
 
+@available(iOS 13.0, *)
 public protocol ECPublicKey: AnyObject {
     
 }

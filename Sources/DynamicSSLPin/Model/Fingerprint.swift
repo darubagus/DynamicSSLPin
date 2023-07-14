@@ -10,6 +10,7 @@ import Foundation
 internal struct Fingerprint: Codable {
     
     struct Entry: Codable {
+        let id: Int
         let name: String
         let fingerprint: Data
         let expirationDate: Date

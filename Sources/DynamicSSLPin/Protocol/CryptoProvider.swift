@@ -12,9 +12,9 @@ import CryptoKit
 @available(iOS 13.0, *)
 public protocol CryptoProvider {
     
-    func validateSignatureECDSA(signedData: SignedData, pubKey: ECPublicKey) -> Bool
+    func validateSignatureECDSA(signedData: SignedData, pubKey: CryptoKit.P256.Signing.PublicKey) -> Bool
     
-    func importECPublicKey(pubKey: Data) -> Any?
+    func importECPublicKey(pubKey: Data) -> CryptoKit.P256.Signing.PublicKey?
     
     func hash(data: Data) -> Data
     

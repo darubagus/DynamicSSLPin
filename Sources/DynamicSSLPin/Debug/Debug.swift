@@ -12,7 +12,7 @@ public class Debug {
         Swift.fatalError(message(), file: "", line: 1)
     }
     
-    public static func messsage(_ message: @autoclosure () -> String) {
+    public static func message(_ message: @autoclosure () -> String) {
         Swift.print(message())
     }
 }

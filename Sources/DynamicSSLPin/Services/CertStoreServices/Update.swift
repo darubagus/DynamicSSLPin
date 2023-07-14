@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import CryptoKit
 
 @available(iOS 13.0, *)
 extension CryptoProvider {
-    func importECPublicKey(pubKeyInBase64: String) -> ECPublicKey {
-        guard let publicKeyData = pubKeyInBase64.data(using: .utf8), let publicKey = importECPublicKey(pubKey: publicKeyData) as? ECPublicKey else {
+    func importECPublicKey(pubKeyInBase64: String) -> CryptoKit.P256.Signing.PublicKey {
+        guard let publicKeyData = pubKeyInBase64.data(using: .utf8), let publicKey = importECPublicKey(pubKey: publicKeyData) as? CryptoKit.P256.Signing.PublicKey else {
             Debug.fatalError("CertStoreConfig: Invalid public key")
         }
         return publicKey
@@ -87,7 +88,7 @@ public extension CertStore {
                 Debug.fatalError("processReceivedData: Challenge not set")
             }
             guard let signature = responseHeader["x-cert-pinning-signature"] else {
-                Debug.messsage("processReceivedData: Missing signature header")
+                Debug.message("processReceivedData: Missing signature header")
                 return .invalidSignature
             }
             guard let signatureData = Data(base64Encoded: signature) else {
@@ -98,15 +99,15 @@ public extension CertStore {
             signedData.append(Data("&".utf8))
             signedData.append(data)
             
-            guard cryptoProvider.validateSignatureECDSA(signedData: SignedData(data: signedData, signature: signatureData), pubKey: publicKey as! ECPublicKey) else {
-                Debug.messsage("processReceivedData: Invalid Signature")
+            guard cryptoProvider.validateSignatureECDSA(signedData: SignedData(data: signedData, signature: signatureData), pubKey: publicKey as! CryptoKit.P256.Signing.PublicKey) else {
+                Debug.message("processReceivedData: Invalid Signature")
                 return .invalidSignature
             }
         }
         
         let jsonUtil = JSONUtility()
         guard let response = try? jsonUtil.jsonDecoder().decode(Fingerprint.self, from: data) else {
-            Debug.messsage("processReceivedData: Failed to parse JSON data from remote")
+            Debug.message("processReceivedData: Failed to parse JSON data from remote")
             return .invalidData
         }
         var result = UpdateResult.ok
@@ -126,15 +127,15 @@ public extension CertStore {
                 if !configuration.useChallenge {
                     guard let signedData = entry.normalizedSignatureData else {
                         if entry.signature == nil {
-                            Debug.messsage("processReceivedData: Missing signature for \(entry.name)")
+                            Debug.message("processReceivedData: Missing signature for \(entry.name)")
                         } else {
-                            Debug.messsage("processReceivedData: Unable to prepare data for signature validation for \(entry.name)")
+                            Debug.message("processReceivedData: Unable to prepare data for signature validation for \(entry.name)")
                         }
                         result = .invalidData
                         break
                     }
-                    guard cryptoProvider.validateSignatureECDSA(signedData: signedData, pubKey: publicKey as! ECPublicKey) else {
-                        Debug.messsage("CertStore: Invalid Signature for \(entry.name)")
+                    guard cryptoProvider.validateSignatureECDSA(signedData: signedData, pubKey: publicKey as CryptoKit.P256.Signing.PublicKey) else {
+                        Debug.message("CertStore: Invalid Signature for \(entry.name)")
                         result = .invalidSignature
                         break
                     }
@@ -142,14 +143,14 @@ public extension CertStore {
                 
                 if let expected = self.configuration.expectedCommonNames {
                     if !expected.contains(newCertInfo.commonName) {
-                        Debug.messsage("CertStore: Common name \(entry.name) is not expected, but will be stored anyway")
+                        Debug.message("CertStore: Common name \(entry.name) is not expected, but will be stored anyway")
                     }
                 }
                 newCert.append(newCertInfo)
             }
             
             if newCert.isEmpty && result == .ok {
-                Debug.messsage("CertStore: Storage still empty")
+                Debug.message("CertStore: Storage still empty")
                 result = .emptyStore
             }
             
