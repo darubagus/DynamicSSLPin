@@ -14,15 +14,10 @@ public class CryptoKitCryptoProvider: CryptoProvider {
     public init () {}
     
     public func validateSignatureECDSA(signedData: SignedData, pubKey: CryptoKit.P256.Signing.PublicKey) -> Bool {
-        
-//        let publicKeyData =
-//        let signingPubKey = try! P521.Signing.PublicKey(rawRepresentation: publicKeyData)
-//
-//        return signingPubKey.isValidSignature(signedData.signature, for: ECPublicKey)
-        guard let ecPublicKey = pubKey as? CryptoKit.P256.Signing.PublicKey else {
-            Debug.fatalError("validateSignature: Invalid public key")
-        }
-        return true
+        Debug.message("signature \(signedData.signature)")
+        Debug.message("signature type \(type(of: signedData.signature))")
+        let signature = try! P256.Signing.ECDSASignature(rawRepresentation: signedData.signature)
+        return pubKey.isValidSignature(signature, for: signedData.data)
     }
     
     public func importECPublicKey(pubKey: Data) -> CryptoKit.P256.Signing.PublicKey? {
@@ -53,7 +48,7 @@ public class CryptoKitCryptoProvider: CryptoProvider {
 @available(iOS 13.0, *)
 extension CryptoProvider {
     func importECPublicKey(pubKeyBase64: String) -> CryptoKit.P256.Signing.PublicKey {
-        guard let publicKeyData = pubKeyBase64.data(using: .utf8), let pubKey = importECPublicKey(pubKey: publicKeyData) else {
+        guard let publicKeyData = Data(base64Encoded: pubKeyBase64), let pubKey = importECPublicKey(pubKey: publicKeyData) else {
             Debug.fatalError("Invalid public key")
         }
         return pubKey

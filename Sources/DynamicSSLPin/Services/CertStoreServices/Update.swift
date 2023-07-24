@@ -9,16 +9,6 @@ import Foundation
 import CryptoKit
 
 @available(iOS 13.0, *)
-extension CryptoProvider {
-    func importECPublicKey(pubKeyInBase64: String) -> CryptoKit.P256.Signing.PublicKey {
-        guard let publicKeyData = pubKeyInBase64.data(using: .utf8), let publicKey = importECPublicKey(pubKey: publicKeyData) as? CryptoKit.P256.Signing.PublicKey else {
-            Debug.fatalError("CertStoreConfig: Invalid public key")
-        }
-        return publicKey
-    }
-}
-
-@available(iOS 13.0, *)
 public extension CertStore {
     func update(mode: UpdateMode = .default, completionQueue: DispatchQueue = .main, completion: @escaping (_ result: UpdateResult, _ error: Error?) -> Void) {
         let currentDate = Date()
