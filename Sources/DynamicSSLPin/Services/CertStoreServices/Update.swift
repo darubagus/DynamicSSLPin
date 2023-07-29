@@ -42,6 +42,7 @@ public extension CertStore {
         var requestHeader = [String:String]()
         let requestChallenge: String?
         
+        // ROOM FOR IMPROVEMENT
         if configuration.useChallenge {
             let randomChallenge = cryptoProvider.getRandomData(length: 16).base64EncodedString()
             requestHeader["X-Cert-Pinning-Challenge"] = randomChallenge
@@ -73,6 +74,7 @@ public extension CertStore {
     private func processReceivedData(_ data: Data, challenge: String?, responseHeader: [String:String], currentDate: Date) -> UpdateResult {
         let publicKey = cryptoProvider.importECPublicKey(pubKeyBase64: configuration.pubKey)
         
+        // ROOM FOR IMPROVEMENT
         if configuration.useChallenge {
             guard let challenge = challenge else {
                 Debug.fatalError("processReceivedData: Challenge not set")
@@ -107,6 +109,7 @@ public extension CertStore {
             
             for entry in response.fingerprints {
                 let newCertInfo = try! CertInfo(from: entry)
+                Debug.message("new \(newCertInfo)")
                 if newCertInfo.isCertExpired(forDate: currentDate) || newCert.firstIndex(of: newCertInfo) != nil {
                     // if entry is expired already, just proceed to next entry
                     // OR
@@ -137,6 +140,7 @@ public extension CertStore {
                     }
                 }
                 newCert.append(newCertInfo)
+                Debug.message("Append certificate successful")
             }
             
             if newCert.isEmpty && result == .ok {
@@ -153,7 +157,7 @@ public extension CertStore {
             
             return CacheData(certificates: newCert, nextUpdate: nextUpdate)
         }
-        // remove below line later
+        Debug.message("Update Finished")
        return result
     }
 }

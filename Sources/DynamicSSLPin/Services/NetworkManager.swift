@@ -42,11 +42,12 @@ public class NetworkManager: NSObject, URLSessionDelegate, RemoteDataProvider {
             urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
             
             //logger
-            Debug.logHTTPRequest(request: urlRequest)
+//            Debug.logHTTPRequest(request: urlRequest)
             
             
             this.session.dataTask(with: urlRequest) { data, response, error in
-            Debug.logHTTPResponse(response: response, data: data, error: error)
+            // another logger
+//            Debug.logHTTPResponse(response: response, data: data, error: error)
                 
                 if let error {
                     completion(RemoteDateResponse(responseHeader: [:], results: .failure(NetworkError.internalError(message: "Invalid Response Object"))))
@@ -71,6 +72,10 @@ public class NetworkManager: NSObject, URLSessionDelegate, RemoteDataProvider {
                 }
             }.resume()
         }
+    }
+    
+    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        sslValidationStrat.validate(challenge: challenge, completionHandler: completionHandler)
     }
     
 }

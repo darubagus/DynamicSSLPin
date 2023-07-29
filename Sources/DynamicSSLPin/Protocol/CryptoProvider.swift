@@ -20,5 +20,5 @@ public protocol CryptoProvider {
     
     func getRandomData(length: Int) -> Data
     
-    func convertDigestToData(digest: SHA384Digest) -> Data
+    func convertDigestToData(digest: SHA256Digest) -> Data
 }
