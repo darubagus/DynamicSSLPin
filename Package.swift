@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "DynamicSSLPin",
     platforms: [
-        .iOS(.v11)
+        .iOS(.v15)
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
@@ -23,7 +23,13 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "DynamicSSLPin",
-            dependencies: [])
+            dependencies: ["PowerAuth2", "PowerAuthCore"]),
+        .binaryTarget(
+            name: "PowerAuth2",
+            path: "./Frameworks/PowerAuth2.xcframework"),
+        .binaryTarget(
+            name: "PowerAuthCore",
+            path: "./Frameworks/PowerAuthCore.xcframework"),
     ],
     swiftLanguageVersions: [
         .v5

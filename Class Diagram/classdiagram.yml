@@ -1,0 +1,289 @@
+@startuml
+' STYLE START
+
+skinparam shadowing false
+' STYLE END
+set namespaceSeparator none
+
+class "SignedData" as SignedData << (S, SkyBlue) struct >> { 
+  +data : Data
+  +signature : Data 
+}
+
+class "Debug" as Debug << (C, DarkSeaGreen) >> { 
+  +{static} fatalError(_:)
+  +{static} message(_:) 
+}
+
+class "Debug" as Debug << (X, Orchid) extension >> { 
+  +{static} logHTTPRequest(request:)
+  +{static} logHTTPResponse(response:data:error:) 
+}
+
+class "HTTPRequestBody" as HTTPRequestBody << (E, LightSteelBlue) enum >> { 
+  +jsonDecodable
+  +jsonEncodeable
+  +formData(_:) 
+}
+
+class "NetworkError" as NetworkError << (E, LightSteelBlue) enum >> { 
+  +internalError(message:)
+  +invalidHTTPResponse(statusCode:)
+  +nilResponseData
+  +decodingError(_:)
+  +encodingError(_:)
+  +unexpectedError(_:)
+  +serverError(statusCode:payload:)
+  +invalidURL 
+}
+Error -- NetworkError : inherits
+
+class "UpdateMode" as UpdateMode << (E, LightSteelBlue) enum >> { 
+  +default
+  +forced 
+}
+
+class "UpdateResult" as UpdateResult << (E, LightSteelBlue) enum >> { 
+  +ok
+  +emptyStore
+  +invalidData
+  +invalidSignature
+  +networkError 
+}
+
+class "ValidationResult" as ValidationResult << (E, LightSteelBlue) enum >> { 
+  +trusted
+  +untrusted
+  +empty 
+}
+
+class "SSLValidationStrat" as SSLValidationStrat << (E, LightSteelBlue) enum >> { 
+  +default
+  +noValidation 
+}
+class "SSLValidationStrat" as SSLValidationStrat0 << (X, Orchid) extension >> { 
+  ~validate(challenge:completionHandler:) 
+}
+SSLValidationStrat <.. SSLValidationStrat0 : ext
+
+class "JSONUtility" as JSONUtility << (C, DarkSeaGreen) >> { 
+  ~jsonDecoder()
+  ~jsonEncoder() 
+}
+
+class "CacheData" as CacheData << (S, SkyBlue) struct >> { 
+  ~certificates : [CertInfo]
+  ~nextUpdate : Date 
+}
+class "CodingKeys" as CacheData.CodingKeys << (E, LightSteelBlue) enum >> { 
+  ~certificates
+  ~nextUpdate 
+}
+class "CacheData" as CacheData0 << (X, Orchid) extension >> { 
+  ~countValidCertificates(forDate:) 
+}
+class "Array" as Array << (X, Orchid) extension >> { 
+  ~sortCertificates() 
+}
+Codable <|-- CacheData : inherits
+String -- CacheData.CodingKeys : inherits
+CodingKey -- CacheData.CodingKeys : inherits
+CacheData +-- CacheData.CodingKeys
+CacheData <.. CacheData0 : ext
+
+class "CertInfo" as CertInfo << (S, SkyBlue) struct >> { 
+  ~commonName : String
+  ~fingerprint : Data
+  ~expirationDate : Date 
+}
+class "CodingKeys" as CertInfo.CodingKeys << (E, LightSteelBlue) enum >> { 
+  ~commonName
+  ~fingerprint
+  ~expirationDate 
+}
+class "CertInfo" as CertInfo0 << (X, Orchid) extension >> { 
+  ~init(from:)
+  ~isCertExpired(forDate:) 
+}
+class "CertInfo" as CertInfo1 << (X, Orchid) extension >> { 
+  ~{static} isCertMatch(lhs:rhs:) 
+}
+Codable <|-- CertInfo : inherits
+String -- CertInfo.CodingKeys : inherits
+CodingKey -- CertInfo.CodingKeys : inherits
+Equatable <|-- CertInfo : inherits
+CertInfo +-- CertInfo.CodingKeys
+CertInfo <.. CertInfo0 : ext
+CertInfo <.. CertInfo1 : ext
+
+class "Fingerprint" as Fingerprint << (S, SkyBlue) struct >> { 
+  ~fingerprints : [Entry]
+  ~timestamp : Date? 
+}
+class "Entry" as Fingerprint.Entry << (S, SkyBlue) struct >> { 
+  ~id : Int
+  ~name : String
+  ~fingerprint : Data
+  ~expirationDate : Date
+  ~signature : Data? 
+}
+class "Entry" as Fingerprint.Entry0 << (X, Orchid) extension >> { 
+  ~normalizedSignatureData : SignedData? 
+}
+Codable <|-- Fingerprint : inherits
+Codable <|-- Fingerprint.Entry : inherits
+Fingerprint +-- Fingerprint.Entry
+
+class "CryptoKitCryptoProvider" as CryptoKitCryptoProvider << (C, DarkSeaGreen) >> { 
+  +init()
+  +validateSignatureECDSA(signedData:pubKey:)
+  +importECPublicKey(pubKey:)
+  +hash(data:)
+  +getRandomData(length:) 
+}
+class "CryptoProvider" as CryptoProvider << (X, Orchid) extension >> { 
+  ~importECPublicKey(pubKeyBase64:)
+  +convertDigestToData(digest:) 
+}
+CryptoProvider <|-- CryptoKitCryptoProvider : inherits
+
+class "CryptoProvider" as CryptoProvider << (P, GoldenRod) protocol >> { 
+  +validateSignatureECDSA(signedData:pubKey:)
+  +importECPublicKey(pubKey:)
+  +hash(data:)
+  +getRandomData(length:)
+  +convertDigestToData(digest:) 
+}
+
+class "SecureDataProvider" as SecureDataProvider << (C, DarkSeaGreen) >> { 
+  +{static} defaultKeychainIdent : String
+  -keychain : PowerAuthKeychain
+  +init(keychainIdentifier:accessGroup:)
+  +save(data:forKey:)
+  +load(forKey:status:)
+  +removeData(forKey:) 
+}
+SecureDataStore <|-- SecureDataProvider : inherits
+
+class "SecureDataStore" as SecureDataStore << (P, GoldenRod) protocol >> { 
+  +save(data:forKey:)
+  +load(forKey:status:)
+  +removeData(forKey:) 
+}
+
+class "RemoteDataProvider" as RemoteDataProvider << (P, GoldenRod) protocol >> { 
+  ~fetchFingerprints(request:completion:) 
+}
+class "RemoteDataRequest" as RemoteDataRequest << (S, SkyBlue) struct >> { 
+  ~requestHeader : [String:String] 
+}
+class "RemoteDateResponse" as RemoteDateResponse << (S, SkyBlue) struct >> { 
+  ~responseHeader : [String:String]
+  ~results : Result<Data, Error> 
+}
+AnyObject <|.. RemoteDataProvider : inherits
+
+class "CertStore" as CertStore << (X, Orchid) extension >> { 
+  ~saveData(data:)
+  ~loadCachedData()
+  ~loadFallbackCertificates() 
+}
+
+class "CertStore" as CertStore << (X, Orchid) extension >> { 
+  +validate(challenge:)
+  +validate(commonName:certData:)
+  +validate(commonName:fingerprint:) 
+}
+
+class "Data" as Data << (X, Orchid) extension >> { 
+  +{static} bodyToString(body:) 
+}
+
+class "HTTPURLResponse" as HTTPURLResponse << (X, Orchid) extension >> { 
+  +stringifyHeaders : [String:String] 
+}
+
+class "SSLPinningValidationStrat" as SSLPinningValidationStrat << (C, DarkSeaGreen) >> { 
+  +certStore : CertStore
+  +init(certStore:)
+  +validateSSL(for:challenge:completionHandler:) 
+}
+class "CertStore" as CertStore << (X, Orchid) extension >> { 
+  +sslValidationStrategy()
+  +{static} integrateCertStore(configuration:) 
+}
+NSObject <|-- SSLPinningValidationStrat : inherits
+
+class "NetworkManager" as NetworkManager << (C, DarkSeaGreen) >> { 
+  -baseURL : URL
+  -sslValidationStrat : SSLValidationStrat
+  -execQueue : DispatchQueue
+  -delegateQueue : OperationQueue
+  -session : URLSession
+  ~init(baseURL:sslValidationStrat:)
+  ~fetchFingerprints(request:completion:)
+  +urlSession(_:didReceive:completionHandler:) 
+}
+NSObject <|-- NetworkManager : inherits
+URLSessionDelegate <|-- NetworkManager : inherits
+RemoteDataProvider <|-- NetworkManager : inherits
+
+class "CertStore" as CertStore << (X, Orchid) extension >> { 
+  +update(mode:completionQueue:completion:)
+  -doUpdate(currentDate:completionQueue:completion:)
+  -processReceivedData(_:challenge:responseHeader:currentDate:) 
+}
+
+class "SSLPinningValidationStrategy" as SSLPinningValidationStrategy << (C, DarkSeaGreen) >> { 
+  +certStore : CertStore
+  +init(certStore:)
+  +sslValidation(for:challenge:completionHandler:) 
+}
+NSObject <|-- SSLPinningValidationStrategy : inherits
+
+class "UpdateScheduler" as UpdateScheduler << (S, SkyBlue) struct >> { 
+  ~intervalPeriod : TimeInterval
+  ~expirationThreshold : TimeInterval
+  ~thresholdMultiplier : Double
+  ~scheduleUpdate(certificates:currentDate:) 
+}
+
+class "CertStore" as CertStore << (C, DarkSeaGreen) >> { 
+  +instanceID : String
+  +configuration : CertStoreConfig
+  ~cryptoProvider : CryptoProvider
+  ~secureDataStore : SecureDataStore
+  ~remoteDataProvider : RemoteDataProvider
+  ~init(configuration:cryptoProvider:secureDataStore:remoteDataProvider:)
+  +init(configuration:cryptoProvider:secureDataStore:)
+  +resetData() 
+}
+class "CertStore" as CertStore0 << (X, Orchid) extension >> { 
+  -loadCache()
+  ~getAllCertificate()
+  ~getCachedData()
+  ~updateCachedData(closure:) 
+}
+
+CertStore <.. CertStore0 : ext
+
+class "CertStoreConfig" as CertStoreConfig << (S, SkyBlue) struct >> { 
+  +serviceURL : URL
+  +pubKey : String
+  +useChallenge : Bool
+  +identifier : String?
+  +expectedCommonNames : [String]?
+  +fallbackCertificate : Data?
+  +updateInterval : TimeInterval
+  +expirationThreshold : TimeInterval
+  +validationStrategy : SSLValidationStrat
+  +init(serviceURL:pubKey:useChallenge:identifier:expectedCommonNames:fallbackCertificate:updateInterval:expirationThreshold:validationStrategy:) 
+}
+class "CertStoreConfig" as CertStoreConfig0 << (X, Orchid) extension >> { 
+  +validate(crypto:) 
+}
+
+CertStoreConfig <.. CertStoreConfig0 : ext
+
+
+@enduml

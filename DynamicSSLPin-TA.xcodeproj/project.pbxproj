@@ -11,6 +11,10 @@
 		6ED648CE2A7550DE00E57198 /* DynamicSSLPin_TA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED648C32A7550DE00E57198 /* DynamicSSLPin_TA.framework */; };
 		6ED648D32A7550DE00E57198 /* DynamicSSLPin_TATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED648D22A7550DE00E57198 /* DynamicSSLPin_TATests.swift */; };
 		6ED648D42A7550DE00E57198 /* DynamicSSLPin_TA.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED648C62A7550DE00E57198 /* DynamicSSLPin_TA.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6ED648E32A756FA900E57198 /* PowerAuthCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED648E12A756FA700E57198 /* PowerAuthCore.xcframework */; };
+		6ED648E52A756FA900E57198 /* PowerAuth2.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED648E22A756FA900E57198 /* PowerAuth2.xcframework */; };
+		6ED648F72A75702900E57198 /* Sources in Resources */ = {isa = PBXBuildFile; fileRef = 6ED648F52A75702500E57198 /* Sources */; };
+		6ED648F82A75702900E57198 /* Class Diagram in Resources */ = {isa = PBXBuildFile; fileRef = 6ED648F62A75702900E57198 /* Class Diagram */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +33,25 @@
 		6ED648C72A7550DE00E57198 /* DynamicSSLPin_TA.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = DynamicSSLPin_TA.docc; sourceTree = "<group>"; };
 		6ED648CD2A7550DE00E57198 /* DynamicSSLPin-TATests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DynamicSSLPin-TATests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED648D22A7550DE00E57198 /* DynamicSSLPin_TATests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicSSLPin_TATests.swift; sourceTree = "<group>"; };
+		6ED648DE2A756F6800E57198 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		6ED648E12A756FA700E57198 /* PowerAuthCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = PowerAuthCore.xcframework; sourceTree = "<group>"; };
+		6ED648E22A756FA900E57198 /* PowerAuth2.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = PowerAuth2.xcframework; sourceTree = "<group>"; };
+		6ED648E72A756FF100E57198 /* SharedInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedInstance.swift; sourceTree = "<group>"; };
+		6ED648E82A756FF200E57198 /* fingerprint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = fingerprint.sh; sourceTree = "<group>"; };
+		6ED648E92A756FF200E57198 /* pubkey.pub */ = {isa = PBXFileReference; lastKnownFileType = text; path = pubkey.pub; sourceTree = "<group>"; };
+		6ED648EA2A756FF300E57198 /* fingerprints.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = fingerprints.json; sourceTree = "<group>"; };
+		6ED648EB2A756FF400E57198 /* pubkey.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = pubkey.pem; sourceTree = "<group>"; };
+		6ED648EC2A756FF400E57198 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		6ED648ED2A756FF400E57198 /* signature_base_string.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = signature_base_string.txt; sourceTree = "<group>"; };
+		6ED648EE2A756FF500E57198 /* signature_raw.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = signature_raw.txt; sourceTree = "<group>"; };
+		6ED648EF2A756FF500E57198 /* ec-pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ec-pub.pem"; sourceTree = "<group>"; };
+		6ED648F02A756FF600E57198 /* cert_public_key.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = cert_public_key.pem; sourceTree = "<group>"; };
+		6ED648F12A756FF800E57198 /* DynamicSSLPin.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = DynamicSSLPin.podspec; sourceTree = "<group>"; };
+		6ED648F22A756FF800E57198 /* cert.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = cert.der; sourceTree = "<group>"; };
+		6ED648F32A756FF800E57198 /* keypair.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = keypair.pem; sourceTree = "<group>"; };
+		6ED648F42A756FF900E57198 /* Fingerprint_base64.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fingerprint_base64.txt; sourceTree = "<group>"; };
+		6ED648F52A75702500E57198 /* Sources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sources; sourceTree = "<group>"; };
+		6ED648F62A75702900E57198 /* Class Diagram */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Class Diagram"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6ED648E52A756FA900E57198 /* PowerAuth2.xcframework in Frameworks */,
+				6ED648E32A756FA900E57198 /* PowerAuthCore.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,8 +78,26 @@
 		6ED648B92A7550DE00E57198 = {
 			isa = PBXGroup;
 			children = (
-				6ED648C52A7550DE00E57198 /* DynamicSSLPin-TA */,
-				6ED648D12A7550DE00E57198 /* DynamicSSLPin-TATests */,
+				6ED648DD2A756F1100E57198 /* Frameworks */,
+				6ED648C52A7550DE00E57198 /* Support */,
+				6ED648D12A7550DE00E57198 /* Tests */,
+				6ED648F62A75702900E57198 /* Class Diagram */,
+				6ED648F52A75702500E57198 /* Sources */,
+				6ED648F02A756FF600E57198 /* cert_public_key.pem */,
+				6ED648F22A756FF800E57198 /* cert.der */,
+				6ED648F12A756FF800E57198 /* DynamicSSLPin.podspec */,
+				6ED648EF2A756FF500E57198 /* ec-pub.pem */,
+				6ED648F42A756FF900E57198 /* Fingerprint_base64.txt */,
+				6ED648E82A756FF200E57198 /* fingerprint.sh */,
+				6ED648EA2A756FF300E57198 /* fingerprints.json */,
+				6ED648F32A756FF800E57198 /* keypair.pem */,
+				6ED648EC2A756FF400E57198 /* LICENSE */,
+				6ED648EB2A756FF400E57198 /* pubkey.pem */,
+				6ED648E92A756FF200E57198 /* pubkey.pub */,
+				6ED648E72A756FF100E57198 /* SharedInstance.swift */,
+				6ED648ED2A756FF400E57198 /* signature_base_string.txt */,
+				6ED648EE2A756FF500E57198 /* signature_raw.txt */,
+				6ED648DE2A756F6800E57198 /* Package.swift */,
 				6ED648C42A7550DE00E57198 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,21 +111,30 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6ED648C52A7550DE00E57198 /* DynamicSSLPin-TA */ = {
+		6ED648C52A7550DE00E57198 /* Support */ = {
 			isa = PBXGroup;
 			children = (
 				6ED648C62A7550DE00E57198 /* DynamicSSLPin_TA.h */,
 				6ED648C72A7550DE00E57198 /* DynamicSSLPin_TA.docc */,
 			);
-			path = "DynamicSSLPin-TA";
+			path = Support;
 			sourceTree = "<group>";
 		};
-		6ED648D12A7550DE00E57198 /* DynamicSSLPin-TATests */ = {
+		6ED648D12A7550DE00E57198 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				6ED648D22A7550DE00E57198 /* DynamicSSLPin_TATests.swift */,
 			);
-			path = "DynamicSSLPin-TATests";
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		6ED648DD2A756F1100E57198 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6ED648E22A756FA900E57198 /* PowerAuth2.xcframework */,
+				6ED648E12A756FA700E57198 /* PowerAuthCore.xcframework */,
+			);
+			path = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,6 +229,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6ED648F82A75702900E57198 /* Class Diagram in Resources */,
+				6ED648F72A75702900E57198 /* Sources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +404,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -378,6 +433,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
