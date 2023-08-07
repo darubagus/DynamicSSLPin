@@ -17,7 +17,7 @@ public class SSLPinningValidationStrat: NSObject {
     
     public func validateSSL(for session: URLSession, challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         switch certStore.validate(challenge: challenge) {
-            case .trusted: completionHandler(.performDefaultHandling, nil)
+            case .trusted: completionHandler(.useCredential, nil)
             case .empty, .untrusted: completionHandler(.cancelAuthenticationChallenge, nil)
         }
     }

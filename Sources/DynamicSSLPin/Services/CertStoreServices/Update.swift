@@ -17,6 +17,7 @@ public extension CertStore {
         var needsDirectUpdate = true
         var needsSilentUpdate = false
         
+        
         if let cachedData = cachedData {
             needsDirectUpdate = cachedData.countValidCertificates(forDate: currentDate) == 0 || mode == .forced
             if !needsDirectUpdate {
@@ -75,27 +76,27 @@ public extension CertStore {
         let publicKey = cryptoProvider.importECPublicKey(pubKeyBase64: configuration.pubKey)
         
         // ROOM FOR IMPROVEMENT
-        if configuration.useChallenge {
-            guard let challenge = challenge else {
-                Debug.fatalError("processReceivedData: Challenge not set")
-            }
-            guard let signature = responseHeader["x-cert-pinning-signature"] else {
-                Debug.message("processReceivedData: Missing signature header")
-                return .invalidSignature
-            }
-            guard let signatureData = Data(base64Encoded: signature) else {
-                return.invalidSignature
-            }
-            
-            var signedData = Data(challenge.utf8)
-            signedData.append(Data("&".utf8))
-            signedData.append(data)
-            
-            guard cryptoProvider.validateSignatureECDSA(signedData: SignedData(data: signedData, signature: signatureData), pubKey: publicKey as! CryptoKit.P256.Signing.PublicKey) else {
-                Debug.message("processReceivedData: Invalid Signature")
-                return .invalidSignature
-            }
-        }
+//        if configuration.useChallenge {
+//            guard let challenge = challenge else {
+//                Debug.fatalError("processReceivedData: Challenge not set")
+//            }
+//            guard let signature = responseHeader["x-cert-pinning-signature"] else {
+//                Debug.message("processReceivedData: Missing signature header")
+//                return .invalidSignature
+//            }
+//            guard let signatureData = Data(base64Encoded: signature) else {
+//                return.invalidSignature
+//            }
+//
+//            var signedData = Data(challenge.utf8)
+//            signedData.append(Data("&".utf8))
+//            signedData.append(data)
+//
+//            guard cryptoProvider.validateSignatureECDSA(signedData: SignedData(data: signedData, signature: signatureData), pubKey: publicKey) else {
+//                Debug.message("processReceivedData: Invalid Signature")
+//                return .invalidSignature
+//            }
+//        }
         
         let jsonUtil = JSONUtility()
         guard let response = try? jsonUtil.jsonDecoder().decode(Fingerprint.self, from: data) else {
@@ -109,7 +110,6 @@ public extension CertStore {
             
             for entry in response.fingerprints {
                 let newCertInfo = try! CertInfo(from: entry)
-                Debug.message("new \(newCertInfo)")
                 if newCertInfo.isCertExpired(forDate: currentDate) || newCert.firstIndex(of: newCertInfo) != nil {
                     // if entry is expired already, just proceed to next entry
                     // OR
@@ -127,6 +127,8 @@ public extension CertStore {
                         result = .invalidData
                         break
                     }
+                    
+//                    Debug.message("[Update] signedData: \(signedData)")
                     guard cryptoProvider.validateSignatureECDSA(signedData: signedData, pubKey: publicKey as CryptoKit.P256.Signing.PublicKey) else {
                         Debug.message("CertStore: Invalid Signature for \(entry.name)")
                         result = .invalidSignature

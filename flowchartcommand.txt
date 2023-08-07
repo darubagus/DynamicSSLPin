@@ -1,0 +1,14 @@
+Decode JSON response;
+i=0;
+while(i != length(ArrayOfFingerprintn)) {
+  Get signed data;
+  Validate ECDSA signature;
+  if(isValidSignature()) {
+    Add certificate info to CertStore
+  } else {
+    throw error message
+  }
+  i+=1
+};
+
+Schedule next update

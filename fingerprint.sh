@@ -1,17 +1,17 @@
 #!/bin/bash
 
 # Retrieve SSL Certificate in .der format (purpose: this format is suitable for computing sha fingerprint)
-openssl s_client -showcerts -connect my-json-server.typicode.com:443 -servername my-json-server.typicode.com < /dev/null | openssl x509 -outform DER > cert.der
+openssl s_client -showcerts -connect openweathermap.org:443 -servername openweathermap.org < /dev/null | openssl x509 -outform DER > cert.der
 
 # Generate ECDSA key pair then store it in keypair.pem
-openssl ecparam -name prime256v1 -genkey | openssl pkcs8 -topk8 -v2 aes-128-cbc > keypair.pem
+#openssl ecparam -name prime256v1 -genkey | openssl pkcs8 -topk8 -v2 aes-128-cbc > keypair.pem
 
 # Converts a server certificate stored in the cert.der file to SHA-256 fingerprint in binary form, encoded as Base64 and stored in fingerprint.txt
 FINGERPRINT_BASE64=`openssl dgst -sha256 -binary < cert.der | openssl enc -base64 -A`
 
 # Get certificate attribute (common name & expiration date)
-#COMMON_NAME=`openssl x509 -noout -subject -inform der -in cert.der | sed -n '/^subject/s/^.*CN=//p'`
-COMMON_NAME=typicode.com
+COMMON_NAME=`openssl x509 -noout -subject -inform der -in cert.der | sed -n '/^subject/s/^.*CN = //p'`
+#COMMON_NAME=typicode.com
 
 EXPIRATION_TIME=`openssl x509 -noout -dates -inform der -in cert.der | grep notAfter | sed -e 's#notAfter=##'`
 
