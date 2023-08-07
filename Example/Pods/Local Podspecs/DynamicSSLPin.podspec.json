@@ -3,16 +3,16 @@
   "version": "0.1.0",
   "summary": "A short description of DynamicSSLPin.",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/akbarbagassmartek/DynamicSSLPin",
+  "homepage": "https://github.com/darubagus/DynamicSSLPin",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "akbarbagassmartek": "darubagus@gmail.com"
+    "darubagus": "darubagus@gmail.com"
   },
   "source": {
-    "git": "https://github.com/akbarbagassmartek/DynamicSSLPin.git",
+    "git": "https://github.com/darubagus/DynamicSSLPin.git",
     "tag": "0.1.0"
   },
   "platforms": {
