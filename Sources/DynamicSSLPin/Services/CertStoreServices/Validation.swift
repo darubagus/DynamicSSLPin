@@ -36,6 +36,7 @@ public extension CertStore {
         }
         
         let listOfCertificates = getAllCertificate()
+//        Debug.message("\(listOfCertificates)")
         
         if listOfCertificates.count == 0 {
             return .empty

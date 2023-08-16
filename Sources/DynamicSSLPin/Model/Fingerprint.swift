@@ -28,7 +28,7 @@ extension Fingerprint.Entry {
         }
         
         let expirationTimeStamp = String(format: "%.0f", ceil(expirationDate.timeIntervalSince1970))
-        let signedString = "\(name)&\(fingerprint.base64EncodedString())&\(expirationTimeStamp)"
+        let signedString = "\(name)&\(expirationTimeStamp)&\(fingerprint.base64EncodedString())"
         
         guard let signedBytes = signedString.data(using: .utf8) else {
             return nil

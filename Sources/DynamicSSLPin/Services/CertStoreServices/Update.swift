@@ -142,7 +142,7 @@ public extension CertStore {
                     }
                 }
                 newCert.append(newCertInfo)
-                Debug.message("Append certificate successful")
+                Debug.message("Append certificate successful for: \(newCertInfo)")
             }
             
             if newCert.isEmpty && result == .ok {
@@ -157,6 +157,8 @@ public extension CertStore {
             let scheduler = UpdateScheduler(intervalPeriod: configuration.updateInterval, expirationThreshold: configuration.expirationThreshold, thresholdMultiplier: 0.2)
             let nextUpdate = scheduler.scheduleUpdate(certificates: newCert, currentDate: currentDate)
             
+            Debug.message("New Certificate list: \(newCert)")
+            Debug.message("Next Scheduled Update: \(nextUpdate)")
             return CacheData(certificates: newCert, nextUpdate: nextUpdate)
         }
         Debug.message("Update Finished")

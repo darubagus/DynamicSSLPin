@@ -15,11 +15,7 @@ public class CryptoKitCryptoProvider: CryptoProvider {
     
     public func validateSignatureECDSA(signedData: SignedData, pubKey: CryptoKit.P256.Signing.PublicKey) -> Bool {
         let signature = try! P256.Signing.ECDSASignature(derRepresentation: signedData.signature)
-//        Debug.message("[validateSignatureECDSA]: signedData.signature \(signature.derRepresentation.base64EncodedString())")
-//        Debug.message("[validateSignatureECDSA]: signedData.data \(signedData.data.base64EncodedString())")
-//        Debug.message("[validateSignatureECDSA]: pubKey \(pubKey.derRepresentation.base64EncodedString())")
-//        return pubKey.isValidSignature(signature, for: signedData.data)
-        return true
+        return pubKey.isValidSignature(signature, for: signedData.data)
     }
     
     public func importECPublicKey(pubKey: Data) -> CryptoKit.P256.Signing.PublicKey? {
