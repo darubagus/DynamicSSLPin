@@ -1,0 +1,27 @@
+Feature: Certificate Store Initialization
+  As a developer
+  I want to initialize a certificate store with a service URL and public key
+  So that I can use the certificate store for secure communications
+
+Scenario: Initializing certificate store with valid service URL and public key
+  Given the service URL is "https://example.com"
+  And the public key is "PUBLIC_KEY_CONTENT"
+  When the developer initializes a certificate store with the service URL and public key
+  Then the service URL is successfully parsed
+  And a valid configuration is created with the parsed URL and public key
+  And the certificate store is integrated using the created configuration
+
+Scenario: Initializing certificate store with invalid service URL
+  Given the service URL is "invalid-url"
+  And the public key is "PUBLIC_KEY_CONTENT"
+  When the developer initializes a certificate store with the service URL and public key
+  Then the service URL parsing fails
+  And an invalid URL result is reported through the handshake listener
+
+Scenario: Initializing certificate store with missing public key
+  Given the service URL is "https://example.com"
+  And the public key is missing
+  When the developer initializes a certificate store with the service URL and public key
+  Then the service URL is successfully parsed
+  And a valid configuration is created with the parsed URL
+  And the certificate store is integrated using the created configuration

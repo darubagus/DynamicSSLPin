@@ -9,18 +9,18 @@ import Foundation
 import DynamicSSLPin_TA
 import CryptoKit
 
-class CryptoProviderTests: CryptoProvider{
+class CryptoProviderTests{
     
     let cryptoKitCryptoProvider: CryptoProvider
     
     init() {
-        cryptoKitCryptoProvider = CryptoKitCryptoProvider()
+        cryptoKitCryptoProvider: CryptoKitCryptoProvider()
     }
     
     var failure_onECDSAValidation = false
     var failure_onImportECPublicKey = false
     
-    var onECDSAValidation: ((SignedData, CryptoKit.P256.Signing.PublicKey) -> Bool)?
+    var onECDSAValidation: ((SignedData, DummyECPublicKey) -> Bool)?
     
     // MARK: INTERCEPTOR
     struct Interceptor {
@@ -36,19 +36,19 @@ class CryptoProviderTests: CryptoProvider{
     
     // MARK: METHOD FOR TESTING
     
-    func validateSignatureECDSA(signedData: SignedData, pubKey: P256.Signing.PublicKey) -> Bool {
+    func validateSignatureECDSA(signedData: SignedData, publicKey: CryptoKit.P256.Signing.PublicKey) -> Bool {
         interceptor.called_ecdsaValidateSignatures += 1
         if let closure = onECDSAValidation {
-            return closure(signedData, pubKey)
+            return closure(signedData, publicKey)
         }
         return failure_onECDSAValidation == false
     }
     
-    func importECPublicKey(pubKey: Data) -> P256.Signing.PublicKey? {
+    func importECPublicKey(pubKey: Data) -> CryptoKit.P256.Signing.PublicKey? {
         interceptor.called_importECPublicKey += 1
         if failure_onImportECPublicKey == false {
             let keyName = String(data: pubKey, encoding: .utf8)
-            return try! P256.Signing.PublicKey(rawRepresentation: pubKey.suffix(64))
+            return DummyECPublicKey(keyname: keyName)
         }
         return nil
     }
@@ -64,12 +64,10 @@ class CryptoProviderTests: CryptoProvider{
     }
 }
 
-//class DummyECPublicKey {
-//    let publicKey: CryptoKit.P256.Signing.PublicKey?
-//    let keyName: String
-//
-//    init(keyname: String?, publicKey: CryptoKit.P256.Signing.PublicKey? = nil) {
-//        self.keyName = keyname ?? "defaultKeyName"
-//        self.publicKey = publicKey
-//    }
-//}
+class DummyECPublicKey: CryptoKit.P256.Signing.PublicKey? {
+    let keyName: String
+    
+    init(keyname: String?) {
+        self.keyName = keyname ?? "defaultKeyName"
+    }
+}

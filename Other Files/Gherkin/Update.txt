@@ -1,0 +1,34 @@
+Feature: Update Feature
+  As a user
+  I want to perform an update operation
+  So that I can fetch remote data and process it
+
+Scenario: Performing an update without challenge
+  Given the current date is "2023-08-16T12:00:00Z"
+  And the configuration does not specify using challenge
+  When the user initiates an update
+  Then no challenge is generated
+  And a remote data request is made
+  And the remote data is fetched successfully
+  And the received data is processed without a challenge, using the response header and current date
+  And the update result is success
+  And there is no error
+
+Scenario: Failing to fetch remote data
+  Given the current date is "2023-08-16T12:00:00Z"
+  And the configuration specifies using challenge
+  When the user initiates an update
+  And a remote data request is made with the generated header
+  But the remote data fetch fails
+  Then the update result is a network error
+  And an error is returned
+
+Scenario: Failing to process received data
+  Given the current date is "2023-08-16T12:00:00Z"
+  And the configuration specifies without challenge
+  When the user initiates an update
+  Then a remote data request is made with the generated header
+  And the remote data is fetched successfully
+  But processing the received data fails
+  Then the update result is a network error
+  And an error is returned

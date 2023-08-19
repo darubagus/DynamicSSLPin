@@ -1,0 +1,52 @@
+Feature: Certificate Validation
+  As a developer
+  I want to validate certificates based on common name and fingerprint
+  So that I can determine whether a certificate is trusted, untrusted, or invalid
+
+Scenario: Validating a trusted certificate
+  Given the configuration specifies the expected common names: "example.com", "trusted-site.com"
+  And the list of certificates contains valid certificates
+  And the current date is "2023-08-16T12:00:00Z"
+  When the developer validates a certificate with common name "example.com" and valid fingerprint
+  Then the certificate is trusted
+
+Scenario: Validating an untrusted certificate
+  Given the configuration specifies the expected common names: "example.com", "trusted-site.com"
+  And the list of certificates contains valid certificates
+  And the current date is "2023-08-16T12:00:00Z"
+  When the developer validates a certificate with common name "untrusted-site.com" and valid fingerprint
+  Then the certificate is untrusted
+
+Scenario: Validating an expired certificate
+  Given the configuration specifies the expected common names: "example.com", "trusted-site.com"
+  And the list of certificates contains an expired certificate for common name "example.com"
+  And the current date is "2023-08-16T12:00:00Z"
+  When the developer validates a certificate with common name "example.com" and valid fingerprint
+  Then the certificate is invalid due to expiration
+
+Scenario: Validating with no certificates
+  Given the configuration specifies the expected common names: "example.com", "trusted-site.com"
+  And the list of certificates is empty
+  When the developer validates a certificate with common name "example.com" and valid fingerprint
+  Then no certificate is found, and the result is empty
+
+Scenario: Validating with no expected common names
+  Given the configuration does not specify any expected common names
+  And the list of certificates contains valid certificates
+  And the current date is "2023-08-16T12:00:00Z"
+  When the developer validates a certificate with common name "example.com" and valid fingerprint
+  Then the certificate is trusted
+
+Scenario: Validating with incorrect fingerprint
+  Given the configuration specifies the expected common names: "example.com", "trusted-site.com"
+  And the list of certificates contains valid certificates
+  And the current date is "2023-08-16T12:00:00Z"
+  When the developer validates a certificate with common name "example.com" and incorrect fingerprint
+  Then the certificate is untrusted
+
+Scenario: Validating with duplicate common names
+  Given the configuration specifies the expected common names: "example.com", "trusted-site.com"
+  And the list of certificates contains certificates with duplicate common names
+  And the current date is "2023-08-16T12:00:00Z"
+  When the developer validates a certificate with common name "example.com" and valid fingerprint
+  Then the certificate is untrusted due to duplicate entries
