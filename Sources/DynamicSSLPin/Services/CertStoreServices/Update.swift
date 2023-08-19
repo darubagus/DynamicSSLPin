@@ -27,10 +27,12 @@ public extension CertStore {
         
         if needsDirectUpdate {
             // do update
+            Debug.message("[update]: needsDirectUpdate \(needsDirectUpdate)")
             doUpdate(currentDate: currentDate, completionQueue: completionQueue, completion: completion)
         } else {
             if needsSilentUpdate {
                 // do update
+                Debug.message("[update]: needsSilentUpdate \(needsSilentUpdate)")
                 doUpdate(currentDate: currentDate, completionQueue: nil, completion: nil)
             }
             completionQueue.async {
@@ -104,6 +106,7 @@ public extension CertStore {
             return .invalidData
         }
         var result = UpdateResult.ok
+        Debug.message("\(response.fingerprints)")
         
         updateCachedData { (cachedData) -> CacheData? in
             var newCert = (cachedData?.certificates ?? []).filter {  !$0.isCertExpired(forDate: currentDate) }
@@ -145,6 +148,10 @@ public extension CertStore {
                 Debug.message("Append certificate successful for: \(newCertInfo)")
             }
             
+//            let testData = CertInfo(commonName: "*.openweathermap.org", fingerprint: Data("wJqbXkVEvII7szs7LV0lSTmCkff1CBJfgcGIKwpruKQ=".utf8), expirationDate: Date(timeIntervalSince1970: 1692590056))
+//
+//            newCert.append(testData)
+            
             if newCert.isEmpty && result == .ok {
                 Debug.message("CertStore: Storage still empty")
                 result = .emptyStore
@@ -153,6 +160,7 @@ public extension CertStore {
             guard result == .ok else {
                 return nil
             }
+            
             
             let scheduler = UpdateScheduler(intervalPeriod: configuration.updateInterval, expirationThreshold: configuration.expirationThreshold, thresholdMultiplier: 0.2)
             let nextUpdate = scheduler.scheduleUpdate(certificates: newCert, currentDate: currentDate)

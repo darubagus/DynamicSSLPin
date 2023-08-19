@@ -11,7 +11,6 @@ FINGERPRINT_BASE64=`openssl dgst -sha256 -binary < cert.der | openssl enc -base6
 
 # Get certificate attribute (common name & expiration date)
 COMMON_NAME=`openssl x509 -noout -subject -inform der -in cert.der | sed -n '/^subject/s/^.*CN = //p'`
-#COMMON_NAME=typicode.com
 
 EXPIRATION_TIME=`openssl x509 -noout -dates -inform der -in cert.der | grep notAfter | sed -e 's#notAfter=##'`
 

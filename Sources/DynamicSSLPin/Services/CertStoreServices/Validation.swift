@@ -36,7 +36,7 @@ public extension CertStore {
         }
         
         let listOfCertificates = getAllCertificate()
-//        Debug.message("\(listOfCertificates)")
+        Debug.message("\(listOfCertificates)")
         
         if listOfCertificates.count == 0 {
             return .empty
@@ -64,5 +64,9 @@ public extension CertStore {
         } else {
             return .empty
         }
+    }
+    
+    func showAllCertificates() {
+        Debug.message("\(getAllCertificate())")
     }
 }
