@@ -10,6 +10,8 @@ import Foundation
 enum Expiration {
     /// Expiration will be set as "expired"
     case expired
+    /// The certificate will expire really soon
+    case verySoon
     /// The certificate will expire soon
     case soon
     /// The certificate expiration will be set to the future (2 x "soon" timeout)
@@ -28,6 +30,7 @@ extension Expiration {
     var toInterval: TimeInterval {
         switch self {
         case .expired:  return -100
+        case .verySoon: return .testExpiration_VerySoon
         case .soon:     return .testExpiration_Soon
         case .valid:    return .testExpiration_Valid
         case .never:    return .testExpiration_Never

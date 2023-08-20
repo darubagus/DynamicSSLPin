@@ -36,7 +36,7 @@ public extension CertStore {
         }
         
         let listOfCertificates = getAllCertificate()
-        Debug.message("\(listOfCertificates)")
+        Debug.message("List of Certificates: \(listOfCertificates)")
         
         if listOfCertificates.count == 0 {
             return .empty
@@ -59,7 +59,7 @@ public extension CertStore {
         }
         
         if attempts > 0 {
-            // Because there shouldn't be any duplicata entry for one commonName
+            // Because there shouldn't be any duplicate entry for one commonName
             return .untrusted
         } else {
             return .empty

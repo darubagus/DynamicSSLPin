@@ -31,6 +31,7 @@ class CertStore_LoadAndSaveTests: XCTestCase {
     
     // MARK: [CERTSTORE_LOAD_SAVE] Unit Tests
     func test_loadSave() {
+        // MARK: F04-1
         prepareStore(with: .testConfig)
         
         // INITIATE STORE
@@ -93,7 +94,8 @@ class CertStore_LoadAndSaveTests: XCTestCase {
         XCTAssertTrue(secureDataStore.interceptor.called_removeData == 0)
     }
     
-    func test_rest() {
+    func test_reset() {
+        // MARK: F04-1
         prepareStore(with: .testConfig)
         
         remoteDataProvider.setNoLatency().reportData = responseGenerator.removeAllEntry()
@@ -167,5 +169,29 @@ class CertStore_LoadAndSaveTests: XCTestCase {
         XCTAssertTrue(validationResult == .trusted)
         validationResult = certStore.validate(commonName: .testCommonName_1, fingerprint: .testFingerprint_1)
         XCTAssertTrue(validationResult == .trusted)
+    }
+    
+    func test_clearData() {
+        // MARK: F04-1
+        prepareStore(with: .testConfig)
+        
+        remoteDataProvider.setNoLatency().reportData = responseGenerator.removeAllEntry()
+            .data()
+        
+        let updateResult = AsyncHelper.wait { completion in
+            certStore.update { (result, error) in
+                completion.complete(with: result)
+            }
+        }
+        
+        // Clean secure data store interceptor before reset persistent storage
+        secureDataStore.interceptor = .clean
+        certStore.resetData()
+        
+        XCTAssertTrue(updateResult.value == .emptyStore)
+        // Since there is no load and save data after reset, only removeData interceptor that been called
+        XCTAssertTrue(secureDataStore.interceptor.called_loadData == 0)
+        XCTAssertTrue(secureDataStore.interceptor.called_save == 0)
+        XCTAssertTrue(secureDataStore.interceptor.called_removeData == 1)
     }
 }

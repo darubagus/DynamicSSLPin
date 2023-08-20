@@ -22,7 +22,7 @@ class ResponseGeneratorTests {
         if let signData = signData {
             let expirationTimeStamp = String(format: "%.0f", ceil(expirationDate.toDate.timeIntervalSince1970))
             let signedString = "\(commonName)&\(expirationTimeStamp)&\(fingerprint!.base64EncodedString())"
-            
+            Debug.message("signedString \(signedString)")
             guard let signedByte = signedString.data(using: .utf8) else {
                 Debug.fatalError("Failed to prepare data for signing")
             }

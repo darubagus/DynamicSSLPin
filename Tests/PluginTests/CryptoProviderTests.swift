@@ -47,7 +47,6 @@ class CryptoProviderTests: CryptoProvider{
     func importECPublicKey(pubKey: Data) -> P256.Signing.PublicKey? {
         interceptor.called_importECPublicKey += 1
         if failure_onImportECPublicKey == false {
-            let keyName = String(data: pubKey, encoding: .utf8)
             return try! P256.Signing.PublicKey(rawRepresentation: pubKey.suffix(64))
         }
         return nil

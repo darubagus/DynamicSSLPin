@@ -54,4 +54,8 @@ class RemoteDataObject {
         
         return nil
     }
+    
+    func get() -> Data? {
+        return getRemoteData()
+    }
 }

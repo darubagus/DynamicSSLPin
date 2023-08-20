@@ -28,11 +28,13 @@ public extension CertStore {
         if needsDirectUpdate {
             // do update
 //            Debug.message("[update]: needsDirectUpdate \(needsDirectUpdate)")
+            Debug.message("[UPDATE]: Do Direct Update")
             doUpdate(currentDate: currentDate, completionQueue: completionQueue, completion: completion)
         } else {
             if needsSilentUpdate {
                 // do update
 //                Debug.message("[update]: needsSilentUpdate \(needsSilentUpdate)")
+                Debug.message("[UPDATE]: Do Silent Update")
                 doUpdate(currentDate: currentDate, completionQueue: nil, completion: nil)
             }
             completionQueue.async {

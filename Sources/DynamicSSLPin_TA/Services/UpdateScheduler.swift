@@ -35,6 +35,7 @@ internal struct UpdateScheduler {
         }
         
         nextExpirationInterval = min(nextExpirationInterval, intervalPeriod)
+        Debug.message("Next scheduled update: \(currentDate.addingTimeInterval(nextExpirationInterval))")
         return currentDate.addingTimeInterval(nextExpirationInterval)
     }
 }
