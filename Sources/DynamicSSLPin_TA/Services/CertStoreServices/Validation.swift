@@ -9,7 +9,6 @@ import Foundation
 
 @available(iOS 13.0, *)
 public extension CertStore {
-    @available(iOS 15.0, *)
     func validate(challenge: URLAuthenticationChallenge) -> ValidationResult {
         guard let serverTrust = challenge.protectionSpace.serverTrust, let serverCertChain = SecTrustCopyCertificateChain(serverTrust) as? Array<SecCertificate>, let serverCert = serverCertChain[0] as SecCertificate?, let commonName = SecCertificateCopySubjectSummary(serverCert) as String? else {
             return .untrusted

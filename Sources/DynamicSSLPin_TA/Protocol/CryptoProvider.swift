@@ -8,7 +8,6 @@
 import Foundation
 import CryptoKit
 
-// do we need anyObject type here?
 @available(iOS 13.0, *)
 public protocol CryptoProvider {
     
