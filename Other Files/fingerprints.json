@@ -1,0 +1,10 @@
+{
+  "fingerprints": [
+    {
+      "name": "*.openweathermap.org",
+      "fingerprint": "wJqbXkVEvII7szs7LV0lSTmCkff1CBJfgcGIKwpruKQ=",
+      "expirationDate": 1722383999,
+      "signature": "MEQCIG2ko3WsLghnyP4bACKUP69Gy0I5lzpQhmrYFFXRwsIPAiB39kZ2im9v7zFD1d6y4DHkRXdyO80N/UIdzO7Ap0NuzA=="
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+Feature: Data Hashing
+  As a developer
+  I want to hash data using the SHA-256 algorithm
+  So that I can ensure data integrity and security
+
+Scenario: Hashing data using SHA-256
+  Given the developer has some data
+  When the developer hashes the data using SHA-256
+  Then a SHA-256 digest is calculated for the data
+  And the calculated digest is converted to a Data object

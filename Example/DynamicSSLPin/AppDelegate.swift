@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  DynamicSSLPin
 //
-//  Created by akbarbagassmartek on 06/05/2023.
-//  Copyright (c) 2023 akbarbagassmartek. All rights reserved.
+//  Created by darubagus on 06/05/2023.
+//  Copyright (c) 2023 darubagus. All rights reserved.
 //
 
 import UIKit

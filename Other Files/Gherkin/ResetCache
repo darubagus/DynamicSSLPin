@@ -1,0 +1,10 @@
+Feature: Resetting Cached Data
+  As a developer
+  I want to reset cached data for a specific instance
+  So that I can clear the cached data and remove it from the secure data store
+
+Scenario: Resetting cached data when data is cached
+  Given there is cached data for the instance with ID "INSTANCE_ID"
+  When the developer resets the cached data
+  Then the cached data is set to null
+  And the data associated with the instance ID is removed from the secure data store

@@ -1,0 +1,45 @@
+Feature: Update Handling
+  As a developer
+  I want to handle updates based on their mode and cached data
+  So that I can initiate direct or silent updates as needed
+
+Scenario: Initiating a direct update with no cached data
+  Given there is no cached data
+  When the developer initiates an update with mode "default"
+  Then a direct update is initiated
+  And the "doUpdate" function is called with the current date
+  And the completion closure is called with result "UpdateResult" and no error
+
+Scenario: Initiating a direct update with forced mode
+  Given there is cached data
+  And all cached certificates are invalid
+  When the developer initiates an update with mode "forced"
+  Then a direct update is initiated
+  And the "doUpdate" function is called with the current date
+  And the completion closure is called with result "UpdateResult" and no error
+
+Scenario: Initiating a direct update with cached data and no forced mode
+  Given there is cached data
+  And not all cached certificates are invalid
+  And the mode is not "forced"
+  When the developer initiates an update
+  Then no direct update is initiated
+
+Scenario: Initiating a silent update with cached data and outdated next update
+  Given there is cached data
+  And the next update date is earlier than the current date
+  When the developer initiates an update
+  Then a silent update is initiated
+  And the "doUpdate" function is called with the current date
+  And no completion closure is called
+
+Scenario: Completing an update with direct update
+  Given the developer completed a direct update
+  When the completion closure is called
+  Then the completion closure is called with result "UpdateResult.ok" and no error
+
+Scenario: Completing a silent update
+  Given the developer completed a silent update
+  When the completion closure is called
+  Then the completion closure is called with result "UpdateResult.ok" and no error
+

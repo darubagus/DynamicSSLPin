@@ -1,0 +1,30 @@
+Feature: ECDSA Signature Validation
+  As a developer
+  I want to validate ECDSA signatures using public keys
+  So that I can determine whether a signature is valid for a given data
+
+Scenario: Validating a valid ECDSA signature
+  Given a signed data with a valid ECDSA signature
+  And a valid ECDSA public key
+  When the developer validates the ECDSA signature
+  Then the signature is valid
+
+Scenario: Validating an invalid ECDSA signature
+  Given a signed data with an invalid ECDSA signature
+  And a valid ECDSA public key
+  When the developer validates the ECDSA signature
+  Then the signature is not valid
+
+Scenario: Validating with an incorrect public key
+  Given a signed data with a valid ECDSA signature
+  And an incorrect ECDSA public key
+  When the developer validates the ECDSA signature
+  Then the signature is not valid
+
+Scenario: Validating with different data
+  Given a signed data with a valid ECDSA signature
+  And a valid ECDSA public key
+  And a different data than the signed data
+  When the developer validates the ECDSA signature
+  Then the signature is not valid
+

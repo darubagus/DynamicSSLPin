@@ -1,0 +1,21 @@
+Feature: Certificate Sorting
+  As a developer
+  I want to sort a list of certificates based on common name and expiration date
+  So that I can display them in an organized manner
+
+Scenario: Sorting certificates with different common names
+  Given a list of certificates with different common names and expiration dates
+  When the developer sorts the certificates
+  Then the certificates are sorted in ascending order based on common name
+  And certificates with the same common name are further sorted in descending order based on expiration date
+
+Scenario: Sorting certificates with the same common name
+  Given a list of certificates with the same common name and different expiration dates
+  When the developer sorts the certificates
+  Then the certificates are sorted in descending order based on expiration date
+
+Scenario: Sorting an empty list of certificates
+  Given an empty list of certificates
+  When the developer sorts the certificates
+  Then the list remains empty
+
