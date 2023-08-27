@@ -1,3 +1,10 @@
-# DynamicSSLPin
+# Digital Certificate Management + SSL Pinning Framework
 
-A description of this package.
+## Introduction
+
+
+## Configuration
+
+##
+
+

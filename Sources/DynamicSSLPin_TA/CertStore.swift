@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import os
 
 @available(iOS 13.0, *)
 public class CertStore {
@@ -19,6 +20,9 @@ public class CertStore {
     let cryptoProvider: CryptoProvider
     let secureDataStore: SecureDataStore
     let remoteDataProvider: RemoteDataProvider
+    
+    // Logger
+    public let logger = Logger(subsystem: "com.darubagus.DynamicSSLPin-TA", category: "CertStore")
     
     // semaphore with initial value of 1 to control access across multiple exec
     fileprivate let semaphore = DispatchSemaphore(value: 1)
@@ -54,6 +58,7 @@ public class CertStore {
         
         cachedData = nil
         secureDataStore.removeData(forKey: self.instanceID)
+        logger.log("[RESET] Reset cache triggered")
     }
 }
 

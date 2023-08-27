@@ -8,6 +8,7 @@
 import Foundation
 import CryptoKit
 
+
 @available(iOS 13.0, *)
 public extension CertStore {
     func update(mode: UpdateMode = .default, completionQueue: DispatchQueue = .main, completion: @escaping (_ result: UpdateResult, _ error: Error?) -> Void) {
@@ -25,16 +26,29 @@ public extension CertStore {
             }
         }
         
+        logger.log("""
+            [UPDATE STATUS]
+            Valid Certificates : \(cachedData?.countValidCertificates(forDate: currentDate) ?? 0)
+            Needs Direct Update: \(needsDirectUpdate),
+            Needs Silent Update: \(needsSilentUpdate)
+        """)
+        
+        logger.log("""
+                   [DATE]
+                   Current Date: \(Date(), privacy: .public)
+                   Next Update: \(cachedData?.nextUpdate ?? Date(), privacy: .public)
+                   """)
+        
+        Debug.message("\(mode)")
+        
         if needsDirectUpdate {
             // do update
-//            Debug.message("[update]: needsDirectUpdate \(needsDirectUpdate)")
-            Debug.message("[UPDATE]: Do Direct Update")
+            logger.log("[UPDATE]: Do Direct Update")
             doUpdate(currentDate: currentDate, completionQueue: completionQueue, completion: completion)
         } else {
             if needsSilentUpdate {
                 // do update
-//                Debug.message("[update]: needsSilentUpdate \(needsSilentUpdate)")
-                Debug.message("[UPDATE]: Do Silent Update")
+                logger.log("[UPDATE]: Do Silent Update")
                 doUpdate(currentDate: currentDate, completionQueue: nil, completion: nil)
             }
             completionQueue.async {
@@ -150,7 +164,7 @@ public extension CertStore {
 //                Debug.message("Append certificate successful for: \(newCertInfo)")
             }
             
-//            let testData = CertInfo(commonName: "*.openweathermap.org", fingerprint: Data("wJqbXkVEvII7szs7LV0lSTmCkff1CBJfgcGIKwpruKQ=".utf8), expirationDate: Date(timeIntervalSince1970: 1692590056))
+//            let testData = CertInfo(commonName: "*.abc.org", fingerprint: Data("wJqbXkVEvII7szs7LV0lSTmCkff1CBJfgcGIKwpruKQ=".utf8), expirationDate: Date(timeIntervalSince1970: 1692590056))
 //
 //            newCert.append(testData)
             
@@ -168,11 +182,15 @@ public extension CertStore {
             let scheduler = UpdateScheduler(intervalPeriod: configuration.updateInterval, expirationThreshold: configuration.expirationThreshold, thresholdMultiplier: 0.2)
             let nextUpdate = scheduler.scheduleUpdate(certificates: newCert, currentDate: currentDate)
             
-//            Debug.message("New Certificate list: \(newCert)")
-//            Debug.message("Next Scheduled Update: \(nextUpdate)")
+
+            logger.log("""
+                [FINAL DATA]
+                New Certificate list: \(newCert, privacy: .public)
+                Next Scheduled Update: \(nextUpdate, privacy: .public)
+            """)
             return CacheData(certificates: newCert, nextUpdate: nextUpdate)
         }
-//        Debug.message("Update Finished")
-       return result
+        logger.log("Update Success!")
+        return result
     }
 }

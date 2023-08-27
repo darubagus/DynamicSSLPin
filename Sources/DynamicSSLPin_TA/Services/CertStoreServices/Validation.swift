@@ -67,5 +67,6 @@ public extension CertStore {
     
     func showAllCertificates() {
         Debug.message("\(getAllCertificate())")
+        logger.log("All certificate data: \(self.getAllCertificate())")
     }
 }
